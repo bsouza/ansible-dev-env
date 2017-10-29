@@ -1,0 +1,5 @@
+- name: config user groups and shell
+  user:
+    name: vagrant
+    groups: vagrant,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,docker
+    shell: /bin/zsh

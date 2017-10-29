@@ -1,0 +1,41 @@
+---
+- name: install git
+  apt:
+    name: git
+    state: present
+
+- name: install terminator
+  apt:
+    name: terminator
+    state: present
+
+- name: install zsh
+  apt:
+    name: zsh
+    state: present
+
+- name: git clone oh-my-zsh
+  git:
+    repo: 'https://github.com/robbyrussell/oh-my-zsh'
+    dest: /home/vagrant/.oh-my-zsh
+
+- name: copy oh-my-zsh configuration
+  copy:
+    src: "{{ role_path }}/files/.zshrc"
+    dest: /home/vagrant/.zshrc
+
+- name: download vscode deb package
+  get_url:
+    url: "{{ vscode_url_download }}"
+    dest: "{{ vscode_dest }}"
+
+- name: Check if vscode is installed
+  command: dpkg-query -W code
+  register: vscode_check
+  failed_when: vscode_check.rc > 1
+  changed_when: vscode_check.rc == 1
+
+- name: install vscode
+  apt:
+    deb: "{{ vscode_dest }}"
+  when: vscode_check.rc == 1
