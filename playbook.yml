@@ -63,3 +63,7 @@
         name: docker-engine
         state: present
 
+    - name: add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: vagrant,adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare,docker
