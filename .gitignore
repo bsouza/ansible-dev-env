@@ -1,0 +1,4 @@
+config/config.rb
+keys/
+playbook.retry
+.vagrant/
