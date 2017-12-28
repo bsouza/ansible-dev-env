@@ -37,3 +37,45 @@
   apt:
     name: docker-engine
     state: present
+
+- name: create docker mongo shared folder
+  file:
+    path: /home/vagrant/dev/docker/mongo
+    state: directory
+    mode: 0755
+  become: false
+
+- name: install pip
+  apt:
+    name: python-pip
+    state: present
+
+- name: install docker-py
+  pip:
+    name: docker-py
+
+- name: docker pull mongo image
+  docker_image:
+    name: mongo:3.0
+
+- name: docker pull redis image
+  docker_image:
+    name: redis
+
+- name: configure mongo docker
+  docker:
+    name: mongo-dev
+    image: mongo:3.0
+    state: present
+    ports:
+      - 27017:27017
+    volumes:
+    - /home/vagrant/dev/docker/mongo:/shared
+
+- name: configure redis docker
+  docker:
+    name: redis-dev
+    image: redis
+    state: present
+    ports:
+      - 6379:6379

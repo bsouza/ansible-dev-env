@@ -6,4 +6,5 @@
     - before
     - docker
     - tools
+    - node
     - user
